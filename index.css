@@ -1,5 +1,10 @@
-body {
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     font-family: Arial, sans-serif;
     background: #0f172a;
     color: white;
@@ -22,15 +27,14 @@ header {
 .logo {
     font-size: 22px;
     font-weight: bold;
+    color: #38bdf8;
 }
 
-/* NAV MENU */
+/* NAVIGATION */
 nav ul {
     list-style: none;
     display: flex;
     gap: 30px;
-    margin: 0;
-    padding: 0;
 }
 
 nav a {
@@ -47,15 +51,14 @@ nav a:hover {
 .hamburger {
     display: none;
     flex-direction: column;
-    cursor: pointer;
     gap: 6px;
+    cursor: pointer;
 }
 
 .hamburger span {
     width: 28px;
     height: 3px;
     background: white;
-    transition: 0.3s;
 }
 
 /* HERO */
@@ -65,9 +68,15 @@ nav a:hover {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    text-align: center;
 }
 
-/* Circle Image */
+.subtitle {
+    margin-top: 10px;
+    color: #94a3b8;
+}
+
+/* ROTATING CIRCLE IMAGE */
 .circle {
     width: 220px;
     height: 220px;
@@ -88,8 +97,47 @@ nav a:hover {
     to { transform: rotate(360deg); }
 }
 
-h1 {
-    margin-top: 30px;
+/* ABOUT SECTION */
+.about {
+    min-height: 130vh;
+    background: linear-gradient(to right, #0f172a, #111827);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 10%;
+}
+
+.about-container {
+    max-width: 1000px;
+}
+
+.about-text h2 {
+    font-size: 48px;
+    margin-bottom: 30px;
+    color: #38bdf8;
+}
+
+.about-text p {
+    font-size: 20px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+.about-btn {
+    padding: 14px 35px;
+    border: none;
+    background: #38bdf8;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.about-btn:hover {
+    background: white;
+    transform: translateY(-3px);
 }
 
 /* OTHER SECTIONS */
@@ -101,14 +149,14 @@ h1 {
     font-size: 32px;
 }
 
-/* MOBILE RESPONSIVE */
+/* MOBILE */
 @media (max-width: 768px) {
 
     nav {
         position: fixed;
         top: 70px;
         right: -100%;
-        width: 200px;
+        width: 220px;
         height: 100vh;
         background: #1f2937;
         transition: 0.3s;
