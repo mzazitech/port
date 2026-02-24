@@ -175,7 +175,35 @@
         }
     }
 </script>
-    </div>
+    </div><!-- Website HTML Extractor -->
+<div class="project-card">
+    <h3>Website HTML Extractor</h3>
+    <p>Type the website URL below to fetch its HTML source and view it.</p>
+    <input type="text" id="extract-url" placeholder="https://example.com">
+    <button onclick="extractHTML()">Extract HTML</button>
+    <textarea id="html-output-area" readonly placeholder="HTML content will appear here..."></textarea>
+</div>
+
+<script>
+    async function extractHTML() {
+        const url = document.getElementById('extract-url').value;
+        const output = document.getElementById('html-output-area');
+
+        if (!url) {
+            alert("Please enter a valid URL");
+            return;
+        }
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("Failed to fetch site");
+            const html = await response.text();
+            output.value = html;
+        } catch (error) {
+            output.value = `Error: Cannot fetch this site.\nReason: ${error.message}\n\nMany sites block cross-origin requests (CORS). Only some sites allow this.`;
+        }
+    }
+</script>
 </section>
 
 <script>
