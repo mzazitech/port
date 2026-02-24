@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mzazi Tech Inc</title>
+    <title>Dominic | Mzazi Tech</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Navigation -->
+    <!-- HEADER -->
     <header>
-        <div class="logo">Mzazi Tech Inc</div>
+        <div class="logo">Mzazi Tech</div>
 
         <div class="hamburger" id="hamburger">
             <span></span>
@@ -29,15 +29,44 @@
         </nav>
     </header>
 
-    <!-- Sections -->
+    <!-- HOME SECTION -->
     <section class="hero" id="home">
         <div class="circle">
-            <img src="https://your-image-link-here.com/photo.jpg" alt="My Photo">
+            <img src="https://your-image-link-here.com/photo.jpg" alt="Dominic">
         </div>
-        <h1>Mzazi Tech Inc</h1>
+        <h1>Dominic</h1>
+        <p class="subtitle">Frontend Developer | Founder of Mzazi Tech</p>
     </section>
 
-    <section class="section" id="about">About Section</section>
+    <!-- ABOUT SECTION -->
+    <section class="about" id="about">
+        <div class="about-container">
+            <div class="about-text">
+                <h2>About Me</h2>
+
+                <p>
+                    My name is <strong>Dominic</strong>, also known as <strong>Mzazi Tech</strong>. 
+                    I am a self-taught Frontend Developer and a BCOM student with a strong passion 
+                    for technology and business innovation.
+                </p>
+
+                <p>
+                    I specialize in building modern, responsive, and user-friendly websites 
+                    using HTML, CSS, and JavaScript. I focus on writing clean, efficient code 
+                    and creating smooth digital experiences.
+                </p>
+
+                <p>
+                    My goal is to build my own tech company while offering high-quality 
+                    freelance services to clients worldwide.
+                </p>
+
+                <button class="about-btn">Work With Me</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- OTHER SECTIONS -->
     <section class="section" id="skills">Skills Section</section>
     <section class="section" id="projects">Projects Section</section>
     <section class="section" id="contact">Contact Section</section>
@@ -48,7 +77,6 @@
 
         hamburger.addEventListener("click", () => {
             navMenu.classList.toggle("active");
-            hamburger.classList.toggle("active");
         });
     </script>
 
