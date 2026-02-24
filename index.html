@@ -155,6 +155,26 @@
             <button onclick="runJS()">Run JS</button>
             <iframe id="js-output" class="project-frame"></iframe>
         </div>
+        <!-- Website Extraction / Sandbox -->
+<div class="project-card">
+    <h3>Website Extraction & Live Preview</h3>
+    <p>Type any website URL below and see it live (if the website allows embedding).</p>
+    <input type="text" id="site-url" placeholder="https://example.com">
+    <button onclick="loadWebsite()">Load Website</button>
+    <iframe id="site-output" class="project-frame"></iframe>
+</div>
+
+<script>
+    function loadWebsite() {
+        const url = document.getElementById('site-url').value;
+        const iframe = document.getElementById('site-output');
+        if(url){
+            iframe.src = url;
+        } else {
+            alert("Please enter a valid URL");
+        }
+    }
+</script>
     </div>
 </section>
 
