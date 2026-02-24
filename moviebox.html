@@ -4,7 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Box | Mzazi Tech</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        header nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        header nav ul li {
+            margin-left: 1rem;
+        }
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .movie-box {
+            padding: 2rem;
+            text-align: center;
+        }
+        .movie-search input {
+            padding: 0.5rem;
+            width: 300px;
+            max-width: 80%;
+            margin-right: 0.5rem;
+        }
+        .movie-search button {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+        .movie-results {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+        .movie-item {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 1rem;
+            width: 200px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .movie-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        .movie-item button {
+            margin-top: 0.5rem;
+            padding: 0.3rem 0.6rem;
+            cursor: pointer;
+        }
+        .movie-trailer {
+            margin-top: 2rem;
+        }
+        iframe {
+            max-width: 100%;
+        }
+    </style>
 </head>
 <body>
 
@@ -46,45 +123,42 @@
 </section>
 
 <script>
-    const MOVIE_API_KEY = '56627643'; // Replace with your OMDb API key
+    const MOVIE_API_KEY = '56627643';
 
     async function searchMovies() {
-        const query = document.getElementById('movie-query').value;
-        const resultsContainer = document.getElementById('movie-results');
-        resultsContainer.innerHTML = '';
+        const query = document.getElementById('movie-query').value.trim();
+        if (!query) return alert('Please enter a movie name.');
 
-        if (!query) return;
-
-        const apiURL = `https://www.omdbapi.com/?s=${encodeURIComponent(query)}&apikey=${MOVIE_API_KEY}`;
+        const url = `https://www.omdbapi.com/?apikey=${MOVIE_API_KEY}&s=${encodeURIComponent(query)}`;
 
         try {
-            const res = await fetch(apiURL);
-            const data = await res.json();
+            const response = await fetch(url);
+            const data = await response.json();
 
-            if (!data.Search) {
-                resultsContainer.innerHTML = `<p style="color:red;">No movies found.</p>`;
-                return;
+            const resultsDiv = document.getElementById('movie-results');
+            resultsDiv.innerHTML = '';
+
+            if (data.Search) {
+                data.Search.forEach(movie => {
+                    const movieItem = document.createElement('div');
+                    movieItem.className = 'movie-item';
+                    movieItem.innerHTML = `
+                        <h3>${movie.Title} (${movie.Year})</h3>
+                        <img src="${movie.Poster !== "N/A" ? movie.Poster : 'https://via.placeholder.com/200x300?text=No+Image'}" alt="${movie.Title}">
+                        <button onclick="playTrailer('${movie.Title}')">Watch Trailer</button>
+                    `;
+                    resultsDiv.appendChild(movieItem);
+                });
+            } else {
+                resultsDiv.innerHTML = '<p>No movies found.</p>';
             }
-
-            data.Search.forEach(movie => {
-                const movieCard = document.createElement('div');
-                movieCard.classList.add('movie-card');
-                movieCard.innerHTML = `
-                    <img src="${movie.Poster !== 'N/A' ? movie.Poster : 'placeholder.jpg'}" alt="${movie.Title}">
-                    <p>${movie.Title} (${movie.Year})</p>
-                `;
-                movieCard.onclick = () => playTrailer(movie.Title);
-                resultsContainer.appendChild(movieCard);
-            });
-
         } catch (error) {
-            resultsContainer.innerHTML = `<p style="color:red;">Error fetching movies: ${error.message}</p>`;
+            console.error('Error fetching movies:', error);
         }
     }
 
     function playTrailer(title) {
         const player = document.getElementById('movie-player');
-        // Search YouTube for trailer
         player.src = `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(title + " trailer")}`;
     }
 </script>
