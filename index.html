@@ -176,34 +176,19 @@
     }
 </script>
     </div><!-- Website HTML Extractor -->
+<!-- Website HTML + CSS Extractor -->
 <div class="project-card">
-    <h3>Website HTML Extractor</h3>
-    <p>Type the website URL below to fetch its HTML source and view it.</p>
+    <h3>Website HTML & CSS Extractor</h3>
+    <p>Enter a website URL to fetch its HTML and CSS (works for sites allowing CORS).</p>
     <input type="text" id="extract-url" placeholder="https://example.com">
-    <button onclick="extractHTML()">Extract HTML</button>
-    <textarea id="html-output-area" readonly placeholder="HTML content will appear here..."></textarea>
+    <button onclick="extractHTMLAndCSS()">Extract</button>
+
+    <h4>HTML</h4>
+    <textarea id="html-output" readonly placeholder="HTML content will appear here..."></textarea>
+
+    <h4>CSS</h4>
+    <textarea id="css-output" readonly placeholder="CSS content will appear here..."></textarea>
 </div>
-
-<script>
-    async function extractHTML() {
-        const url = document.getElementById('extract-url').value;
-        const output = document.getElementById('html-output-area');
-
-        if (!url) {
-            alert("Please enter a valid URL");
-            return;
-        }
-
-        try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error("Failed to fetch site");
-            const html = await response.text();
-            output.value = html;
-        } catch (error) {
-            output.value = `Error: Cannot fetch this site.\nReason: ${error.message}\n\nMany sites block cross-origin requests (CORS). Only some sites allow this.`;
-        }
-    }
-</script>
 </section>
 
 <script>
@@ -219,6 +204,62 @@
         const jsCode = document.getElementById('js-input').value;
         const output = document.getElementById('js-output');
         output.srcdoc = `<script>${jsCode}<\/script>`;
+    }
+    async function extractHTMLAndCSS() {
+        const url = document.getElementById('extract-url').value;
+        const htmlOutput = document.getElementById('html-output');
+        const cssOutput = document.getElementById('css-output');
+
+        if (!url) {
+            alert("Please enter a valid URL");
+            return;
+        }
+
+        htmlOutput.value = "";
+        cssOutput.value = "";
+
+        try {
+            // Fetch HTML
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("Failed to fetch site");
+            const htmlText = await response.text();
+            htmlOutput.value = htmlText;
+
+            // Parse HTML to extract CSS
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlText, "text/html");
+
+            let cssText = "";
+
+            // 1️⃣ Inline <style> tags
+            const styleTags = doc.querySelectorAll("style");
+            styleTags.forEach(tag => {
+                cssText += tag.innerHTML + "\n\n";
+            });
+
+            // 2️⃣ Linked CSS files (same origin / CORS allowed)
+            const linkTags = doc.querySelectorAll("link[rel='stylesheet']");
+            for (const link of linkTags) {
+                try {
+                    const href = new URL(link.href, url).href;
+                    const cssResp = await fetch(href);
+                    if (cssResp.ok) {
+                        const cssContent = await cssResp.text();
+                        cssText += cssContent + "\n\n";
+                    } else {
+                        cssText += `/* Could not fetch: ${href} */\n\n`;
+                    }
+                } catch (e) {
+                    cssText += `/* Error fetching: ${link.href} */\n\n`;
+                }
+            }
+
+            cssOutput.value = cssText;
+
+        } catch (error) {
+            htmlOutput.value = `Error: Cannot fetch this site.\nReason: ${error.message}\n\n`;
+            cssOutput.value = "CSS could not be fetched due to CORS or other restrictions.";
+        }
     }
 </script>
     <section class="section" id="contact">Contact Section</section>
