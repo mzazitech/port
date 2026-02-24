@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Box | Mzazi Tech</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">Mzazi Tech</div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="other.html">Projects</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="movie-box">
+    <div class="project-container">
+        <h2>Movie Box</h2>
+        <p>Search for movies and watch trailers directly on this page!</p>
+
+        <!-- Search Bar -->
+        <div class="movie-search">
+            <input type="text" id="movie-query" placeholder="Search for a movie...">
+            <button onclick="searchMovies()">Search</button>
+        </div>
+
+        <!-- Search Results -->
+        <div id="movie-results" class="movie-results"></div>
+
+        <!-- Trailer Player -->
+        <div class="movie-trailer">
+            <iframe id="movie-player" width="800" height="450"
+                src=""
+                title="Movie Trailer"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+</section>
+
+<script>
+    const MOVIE_API_KEY = 'http://www.omdbapi.com/?i=tt3896198&apikey=56627643'; // Replace with your OMDb API key
+
+    async function searchMovies() {
+        const query = document.getElementById('movie-query').value;
+        const resultsContainer = document.getElementById('movie-results');
+        resultsContainer.innerHTML = '';
+
+        if (!query) return;
+
+        const apiURL = `https://www.omdbapi.com/?s=${encodeURIComponent(query)}&apikey=${MOVIE_API_KEY}`;
+
+        try {
+            const res = await fetch(apiURL);
+            const data = await res.json();
+
+            if (!data.Search) {
+                resultsContainer.innerHTML = `<p style="color:red;">No movies found.</p>`;
+                return;
+            }
+
+            data.Search.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.classList.add('movie-card');
+                movieCard.innerHTML = `
+                    <img src="${movie.Poster !== 'N/A' ? movie.Poster : 'placeholder.jpg'}" alt="${movie.Title}">
+                    <p>${movie.Title} (${movie.Year})</p>
+                `;
+                movieCard.onclick = () => playTrailer(movie.Title);
+                resultsContainer.appendChild(movieCard);
+            });
+
+        } catch (error) {
+            resultsContainer.innerHTML = `<p style="color:red;">Error fetching movies: ${error.message}</p>`;
+        }
+    }
+
+    function playTrailer(title) {
+        const player = document.getElementById('movie-player');
+        // Search YouTube for trailer
+        player.src = `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(title + " trailer")}`;
+    }
+</script>
+
+</body>
+</html>
