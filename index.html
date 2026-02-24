@@ -135,32 +135,44 @@
         </div>
     </div>
 </section>
-    <section class="projects" id="projects">
+   <section class="projects" id="projects">
     <div class="projects-container">
-        <h2>Projects & Interactive Playground</h2>
-        <p>Experiment with HTML, CSS, and JavaScript directly below, or explore code from my sample projects.</p>
+        <h2>Interactive Projects</h2>
+        <p>Try HTML and JavaScript directly below!</p>
 
         <!-- HTML Playground -->
         <div class="project-card">
             <h3>HTML Playground</h3>
-            <iframe src="https://jsfiddle.net/user/demo/fiddles/html/" title="HTML Playground" class="project-frame"></iframe>
+            <textarea id="html-input" placeholder="Type HTML here..."></textarea>
+            <button onclick="runHTML()">Run HTML</button>
+            <iframe id="html-output" class="project-frame"></iframe>
         </div>
 
-        <!-- JS Playground -->
+        <!-- JavaScript Playground -->
         <div class="project-card">
             <h3>JavaScript Playground</h3>
-            <iframe src="https://jsfiddle.net/user/demo/fiddles/js/" title="JS Playground" class="project-frame"></iframe>
+            <textarea id="js-input" placeholder="Type JS here..."></textarea>
+            <button onclick="runJS()">Run JS</button>
+            <iframe id="js-output" class="project-frame"></iframe>
         </div>
-
-        <!-- Live Code Extract / Open Site -->
-        <div class="project-card">
-            <h3>Website Extraction & Experiment</h3>
-            <p>You can try modifying the HTML/CSS/JS of a sample website live and see it in action.</p>
-            <iframe src="https://codepen.io/pen/" title="Live Website Sandbox" class="project-frame"></iframe>
-        </div>
-
     </div>
 </section>
+
+<script>
+    // HTML Playground
+    function runHTML() {
+        const html = document.getElementById('html-input').value;
+        const output = document.getElementById('html-output');
+        output.srcdoc = html;
+    }
+
+    // JS Playground
+    function runJS() {
+        const jsCode = document.getElementById('js-input').value;
+        const output = document.getElementById('js-output');
+        output.srcdoc = `<script>${jsCode}<\/script>`;
+    }
+</script>
     <section class="section" id="contact">Contact Section</section>
 
     <script>
