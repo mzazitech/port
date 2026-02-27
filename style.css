@@ -38,7 +38,7 @@ nav ul {
 }
 
 nav a {
-    text-decoration: none;
+    text-decoration: blue;
     color: white;
     transition: 0.3s;
 }
