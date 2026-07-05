@@ -100,6 +100,8 @@ async function buildAll() {
       "puppeteer",
       "puppeteer-core",
       "electron",
+      "yt-search",
+      "@distube/ytdl-core",
     ],
     sourcemap: "linked",
     plugins: [

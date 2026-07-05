@@ -8,6 +8,7 @@ import { PwaPrompt } from "@/components/PwaPrompt";
 
 import Home from "@/pages/Home";
 import ProjectPage from "@/pages/Project";
+import MzaziTubePage from "@/pages/MzaziTube";
 
 const queryClient = new QueryClient();
 
@@ -15,6 +16,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/projects/mzazitube" component={MzaziTubePage} />
       <Route path="/projects/:slug" component={ProjectPage} />
       <Route component={NotFound} />
     </Switch>

@@ -1,23 +1,8 @@
 import { useParams, Link } from "wouter";
-import { ArrowLeft, ExternalLink, Code2, Layers, Cpu, Smartphone } from "lucide-react";
+import { ArrowLeft, Code2, Layers, Cpu, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projectsData: Record<string, any> = {
-  "mzazitube": {
-    title: "MzaziTube",
-    description: "A streamlined platform to search, stream, and download YouTube videos directly as MP4 or MP3 files. Built to bypass heavy interfaces and provide direct access to media.",
-    tags: ["React", "Node.js", "Media Processing", "API Integration"],
-    icon: <ExternalLink size={48} className="text-primary" />,
-    features: [
-      "High-speed video searching without ads",
-      "Direct MP4/MP3 conversion and download",
-      "Minimalist brutalist interface for fast loading",
-      "Mobile-optimized streaming player"
-    ],
-    ctaText: "Launch MzaziTube",
-    ctaLink: "#",
-    color: "bg-orange-500"
-  },
   "mzazi-music": {
     title: "Mzazi Music",
     description: "A fast, lightweight music streaming interface offering 30-second previews of millions of tracks. Users can build queues, discover new artists, and experience fluid audio playback.",

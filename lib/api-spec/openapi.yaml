@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: youtube
+    description: YouTube search and download operations
 paths:
   /healthz:
     get:
@@ -24,6 +26,71 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /youtube/search:
+    get:
+      operationId: searchYoutube
+      tags: [youtube]
+      summary: Search YouTube videos
+      description: Searches YouTube for videos matching a query
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/YoutubeSearchResponse"
+        "400":
+          description: Invalid query
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /youtube/download:
+    get:
+      operationId: downloadYoutube
+      tags: [youtube]
+      summary: Download a YouTube video as MP4 or MP3
+      description: Streams the requested video's audio or video track as a downloadable file
+      parameters:
+        - name: videoId
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [mp3, mp4]
+      responses:
+        "200":
+          description: File stream
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "502":
+          description: Upstream YouTube error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +100,42 @@ components:
           type: string
       required:
         - status
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+    YoutubeSearchResult:
+      type: object
+      properties:
+        videoId:
+          type: string
+        title:
+          type: string
+        thumbnail:
+          type: string
+        duration:
+          type: string
+        channel:
+          type: string
+        views:
+          type: string
+      required:
+        - videoId
+        - title
+        - thumbnail
+        - duration
+        - channel
+        - views
+    YoutubeSearchResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/YoutubeSearchResult"
+      required:
+        - results
 
