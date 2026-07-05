@@ -1,0 +1,26 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "2SXSvl_E8aDrR_cGwfsWI"
+uri = "file://artifacts/portfolio/public/icon-512.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "KHkaOPFzMj68WHAb7EVGI"
+uri = "file://artifacts/portfolio/public/images/hero-bg.png"
+type = "image"
+title = "abstract terracotta brutalist shapes"
+
+[[generated]]
+id = "HNyCCt5wRCTTkQvwtO0tt"
+uri = "file://artifacts/portfolio/public/images/about-img.png"
+type = "image"
+title = "nairobi coding setup"
+
+[[generated]]
+id = "7EhbBQyzEJ-cTExfMZDTZ"
+uri = "file://artifacts/portfolio/public/images/project-code.png"
+type = "image"
+title = "abstract code visualization"
